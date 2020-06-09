@@ -1,0 +1,39 @@
+﻿@model GildedRoseOnlineStore.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+    var photoPath = "~/images/Products/" + (Model.Picture ?? "noimage.jpg");
+
+}
+
+    <h1> @Html.DisplayFor(model => model.Name)</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Description)</h4>
+    <h5> @Html.DisplayNameFor(model => model.Quantity):  @Html.DisplayFor(model => model.Quantity) | @Html.DisplayNameFor(model => model.Price):  @Html.DisplayFor(model => model.Price)</h5>
+    <hr />
+    <dl class="row">
+        <dd class="col-sm-4">
+            <img class="card-img-top" src="@photoPath" alt="@Model.Description.Trim()" title="@Model.Description.Trim()" asp-append-version="true" height="300" width="300" style="display:block"/>
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+
+    }
+
+
+    @if (Model.Quantity > 0)
+    {
+        @Html.ActionLink("Purchase", "Purchase", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    }
+    else
+    {
+        <p class="text-danger">Item out of stock. </p>
+    }
+    | <a asp-action="Index">Back to List</a>
+
+</div>

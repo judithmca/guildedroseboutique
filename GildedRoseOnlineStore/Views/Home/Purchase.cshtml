@@ -1,0 +1,47 @@
+﻿@model GildedRoseOnlineStore.Models.Product
+
+@{
+    ViewData["Title"] = "Purchase";
+    var photoPath = "~/images/Products/" + (Model.Picture ?? "noimage.jpg");
+
+}
+
+<h1>Purchase</h1>
+
+<h3>You purchased this product</h3>
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="row">
+        <dd class="row-cols-sm-5">
+            <img class="card-img-top" src="@photoPath" alt="@Model.Description.Trim()" title="@Model.Description.Trim()" asp-append-version="true" height="300" width="300" style="display:block" />
+        </dd>
+
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+
+    <form asp-action="Purchase">
+        @*<input type="submit" value="Purchase" class="btn btn-dark" /> |*@
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

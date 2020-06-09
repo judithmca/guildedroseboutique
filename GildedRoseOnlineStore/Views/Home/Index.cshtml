@@ -1,0 +1,75 @@
+﻿@model IEnumerable<GildedRoseOnlineStore.Models.Product>
+
+@{
+    ViewData["Title"] = "Products Page";
+}
+
+<div class="text-center">
+    <div id="carouselBoutiqueSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="~/images/banner.png" alt="Guilded Rose Boutique">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Add a new Product</a>
+    </p>
+
+}
+@if (TempData["ErrorText"] != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@TempData["ErrorText"]");
+            };
+    </script>
+
+}
+<div class="card-deck">
+    @foreach (var product in Model)
+    {
+        var photoPath = "~/images/Products/" + (product.Picture ?? "noimage.jpg");
+
+        <div class="card m-3 table-hover">
+            <a asp-controller="Home"
+               asp-action="Details"
+               asp-route-id="@product.Id">
+
+                <div class="card-header">
+                    <h3>@product.Name</h3>
+                    <h5 class="card-title"> $ @product.Price</h5>
+                </div>
+
+                <img class="card-img-top" src="@photoPath" alt="@product.Description.Trim()" title="@product.Description.Trim()" asp-append-version="true" height="194" />
+                <div class="card-footer text-center">
+                    <div class="btn-group">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink("Delete", "Delete", new { id = product.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+
+                        }
+                    </div>
+
+                    @if (product.Quantity > 0)
+                    {
+                        @Html.ActionLink("Purchase", "Purchase", new { id = product.Id }, new { @class = "btn btn-primary" })
+                        // @product.Quantity
+
+                    }
+                    else
+                    {
+                        <p class="text-danger">Item out of stock. </p>
+                    }
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
